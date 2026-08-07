@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+
+# 1. THE SERVICE NAME
+metadata:
+  name: fastapi-app # The name of the firewall hole we are creating
+
+spec:
+  # 2. THE TYPE OF HOLE
+  type: NodePort # NodePort tells Kubernetes: "Open a port on the literal physical Node (your laptop) so I can access it from my web browser."
+
+  # 3. THE CONNECTION RULES
+  ports:
+    - port: 8000 # The port the Service listens on internally
+      targetPort: 8000 # The exact port your Uvicorn container is running on (matches containerPort in your Deployment)
+      nodePort: 30080 # The physical port on your laptop! When you go to localhost:30080 in Chrome, it sends traffic through the hole!
+
+  # 4. THE TRACKING SYSTEM (Selector)
+  selector:
+    app: fastapi-app # This is CRUCIAL! This tells the Service: "When traffic comes through the hole, send it ONLY to containers wearing the nametag 'app: fastapi-app'."
