@@ -13,6 +13,8 @@ spec:
       labels:
         app: postgres
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: agro-cluster
       containers:
       - name: postgres
         image: postgres:15-alpine
@@ -20,9 +22,15 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_USER
-          value: postgres
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: username
         - name: POSTGRES_PASSWORD
-          value: postgres
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
         volumeMounts:
         - name: postgres-storage
           mountPath: /var/lib/postgresql/data
