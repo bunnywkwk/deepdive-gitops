@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+
+# 1. THE DEPLOYMENT NAME
+metadata:
+  name: fastapi-app # This is just what you see when you type `kubectl get deployments`.
+
+spec:
+  replicas: 3
+
+  # 2. THE TRACKING SYSTEM (Selector)
+  selector:
+    matchLabels:
+      app: fastapi-app # The Deployment manager says: "My job is to find containers with this exact nametag and make sure there are exactly 3 of them alive."
+
+  template:
+    # 3. THE CONTAINER NAMETAG (Labels)
+    metadata:
+      labels:
+        app: fastapi-app # We are literally slapping a physical nametag on the 3 containers so the tracking system above can find them.
+
+    spec:
+      containers:
+        # 4. THE INTERNAL NAME
+        - name: fastapi-app # If you ever have a pod with TWO containers inside it, this helps you tell them apart.
+
+          # (This is the ONLY line that must match Jenkins)
+          image: bunnywkwk/argo-deepdive-api:staging-d398255
+
+          # 5. THE CONTAINER PORT
+          ports:
+            - containerPort: 8000 # This is the exact port Uvicorn is running on inside the Docker container
+
+          # 6. THE STAGE-1 SECRET CONNECTION
+          env:
+            - name: DATABASE_URL
+              # Instead of a hardcoded string, we tell Kubernetes to go look inside its vault
+              # and find the secret we created manually called 'api-secret'
+              valueFrom:
+                secretKeyRef:
+                  name: api-secret
+                  key: database_url
