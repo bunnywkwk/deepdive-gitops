@@ -25,12 +25,12 @@ spec:
         - name: fastapi-app # If you ever have a pod with TWO containers inside it, this helps you tell them apart.
 
           # (This is the ONLY line that must match Jenkins)
-          image: bunnywkwk/argo-deepdive-api:main
-          
+          image: bunnywkwk/argo-deepdive-api:staging-d398255
+
           # 5. THE CONTAINER PORT
           ports:
             - containerPort: 8000 # This is the exact port Uvicorn is running on inside the Docker container
-          
+
           # 6. THE STAGE-1 SECRET CONNECTION
           env:
             - name: DATABASE_URL
