@@ -13,7 +13,7 @@ spec:
   ports:
     - port: 8000 # The port the Service listens on internally
       targetPort: 8000 # The exact port your Uvicorn container is running on (matches containerPort in your Deployment)
-      nodePort: 30080 # The physical port on your laptop! When you go to localhost:30080 in Chrome, it sends traffic through the hole!
+      nodePort: 30081 # The physical port on your laptop! When you go to localhost:30081 in Chrome, it sends traffic through the hole!
 
   # 4. THE TRACKING SYSTEM (Selector)
   selector:
