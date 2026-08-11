@@ -25,7 +25,7 @@ spec:
         - name: fastapi-app # If you ever have a pod with TWO containers inside it, this helps you tell them apart.
 
           # (This is the ONLY line that must match Jenkins)
-          image: bunnywkwk/argo-deepdive-api:staging-ebbd3fb
+          image: bunnywkwk/argo-deepdive-api:staging-bddec1c
 
           # 5. THE CONTAINER PORT
           ports:
